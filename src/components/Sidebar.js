@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { Dashboard, Settings, ExitToApp } from "@mui/icons-material";
 
+// drawerWidth
 const drawerWidth = 240;
 
 const Sidebar = ({ children }) => {
