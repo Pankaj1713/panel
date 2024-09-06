@@ -27,10 +27,9 @@ const Dashboard = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [form, setForm] = useState({
     name: "",
-    description: "",
+    description_content: "",
     price: "",
     category: "",
-    inStock: false,
     image: "",
   });
   const [editingProductId, setEditingProductId] = useState(null);
@@ -38,8 +37,11 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/products");
-        setProducts(response.data);
+        const response = await axios.get(
+          "https:cj-backend.onrender.com/products"
+        );
+
+        setProducts(response?.data?.data);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -50,6 +52,16 @@ const Dashboard = () => {
     fetchProducts();
   }, []);
 
+  const clearForm = () => {
+    setForm({
+      name: "",
+      description_content: "",
+      price: "",
+      category: "",
+      image: "",
+    });
+  };
+
   const handleClickOpenCreate = () => {
     setOpenCreate(true);
   };
@@ -57,10 +69,9 @@ const Dashboard = () => {
   const handleClickOpenEdit = (product) => {
     setForm({
       name: product.name,
-      description: product.description,
+      description_content: product.description,
       price: product.price,
       category: product.category,
-      inStock: product.inStock,
       image: product.image,
     });
     setEditingProductId(product._id);
@@ -85,7 +96,7 @@ const Dashboard = () => {
 
   const handleSubmitCreate = async () => {
     try {
-      await axios.post("http://localhost:3000/api/products", form);
+      await axios.post("https:cj-backend.onrender.com/products", form);
       setProducts([...products, form]); // Optionally update UI with new product
       handleCloseCreate();
     } catch (error) {
@@ -105,6 +116,7 @@ const Dashboard = () => {
         )
       );
       handleCloseEdit();
+      clearForm();
     } catch (error) {
       console.error("Error updating product:", error);
     }
@@ -173,9 +185,9 @@ const Dashboard = () => {
                     mt: 2,
                   }}
                 >
-                  <Typography variant="body2" color="textSecondary">
+                  {/* <Typography variant="body2" color="textSecondary">
                     In Stock: {product.inStock ? "Yes" : "No"}
-                  </Typography>
+                  </Typography> */}
                   <Box>
                     <IconButton
                       aria-label="edit"
