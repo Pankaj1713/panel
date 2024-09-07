@@ -9,12 +9,18 @@ import {
   Typography,
   Divider,
   IconButton,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { Dashboard, Settings, ExitToApp } from "@mui/icons-material";
 
+// drawerWidth
 const drawerWidth = 240;
 
 const Sidebar = ({ children }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer
@@ -24,14 +30,16 @@ const Sidebar = ({ children }) => {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
-            backgroundColor: "#2c3e50", // Professional dark blue background for the sidebar
+            backgroundColor: "#2c3e50",
             color: "white",
             paddingTop: "16px",
-            borderRight: "1px solid #34495e", // Subtle border for separation
+            borderRight: "1px solid #34495e",
           },
         }}
-        variant="permanent"
+        variant={isMobile ? "temporary" : "permanent"}
         anchor="left"
+        open={!isMobile ? true : undefined}
+        onClose={isMobile ? () => {} : undefined}
       >
         <Typography
           variant="h6"
@@ -40,13 +48,12 @@ const Sidebar = ({ children }) => {
           sx={{
             p: 2,
             fontWeight: "bold",
-            color: "#ecf0f1", // Light color for the title
+            color: "#ecf0f1",
           }}
         >
           Admin Panel
         </Typography>
         <Divider sx={{ backgroundColor: "#34495e" }} />{" "}
-        {/* Divider with a slightly lighter shade */}
         <List>
           <ListItem
             button
@@ -54,24 +61,20 @@ const Sidebar = ({ children }) => {
             to="/"
             sx={{
               "&:hover": {
-                backgroundColor: "#34495e", // Darker background on hover
-                borderRadius: "4px", // Rounded corners for hover effect
+                backgroundColor: "#34495e",
+                borderRadius: "4px",
               },
             }}
           >
             <Dashboard sx={{ color: "#ecf0f1", mr: 2 }} />{" "}
-            {/* White color for the icon */}
             <ListItemText
               primary="Dashboard"
-              primaryTypographyProps={{ style: { color: "#ecf0f1" } }} // White color for the text
+              primaryTypographyProps={{ style: { color: "#ecf0f1" } }}
             />
           </ListItem>
         </List>
       </Drawer>
-      <Box
-        component="main"
-        sx={{ flexGrow: 1, bgcolor: "#ecf0f1", p: 3 }} // Light background for main content
-      >
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: "#ecf0f1", p: 3 }}>
         {children}
       </Box>
     </Box>
