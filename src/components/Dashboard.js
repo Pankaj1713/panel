@@ -139,7 +139,7 @@ const Dashboard = () => {
 
     try {
       await axios.put(
-        `https://cj-backend.onrender.com/products/${editingProductId}`,
+        `https://cj-backend.onrender.com/product/${editingProductId}`,
         form
       );
       setProducts(
@@ -158,7 +158,7 @@ const Dashboard = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://cj-backend.onrender.com/products/${id}`);
+      await axios.delete(`https://cj-backend.onrender.com/product/${id}`);
       setProducts(products.filter((product) => product._id !== id));
       toast.success("Product deleted successfully.");
     } catch (error) {
